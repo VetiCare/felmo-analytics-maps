@@ -21,6 +21,22 @@ Initial release.
 - Topology verified: 97.5% of arcs are shared between neighbours, net area change -0.007%, and
   grow/shrink is balanced, so simplification opened no gaps or overlaps.
 
+## v3.0.0 - 2026-09-09
+
+Regional subsets now cover all 16 regions and are keyed to the grouping actually used for
+reporting, replacing the four ad-hoc files from v2.
+
+- Added: bielefeld, bremen, erfurt, halle, hamburg, hannover, koeln, magdeburg,
+  mannheim-heidelberg, nuernberg, rhein-main, rhein-ruhr, rostock, stuttgart.
+- Rebuilt with new centres and radii: berlin, muenchen.
+- Removed: the v2 `essen`, `bochum`, `duesseldorf`, `frankfurt-am-main` and `wiesbaden-mainz`
+  groupings, which did not match the reporting grouping. Rhein/Ruhr and Rhein/Main replace them.
+- Each centre is the median ZIP centroid of its region; each radius is the furthest live ZIP plus
+  a 12 km margin, rounded up to 5 km, so no live ZIP falls outside its map.
+- QA: all 16 verified as byte-identical subsets of `de-plz.geojson`, zero bad PLZ, zero duplicates,
+  correct property set.
+- `de-plz.geojson` is unchanged.
+
 ## v2.0.0 - 2026-09-09
 
 Added four regional subsets so a city-scale ZIP map is possible. Metabase region maps cannot zoom

@@ -5,16 +5,38 @@ Metabase custom region map.
 
 ## The files
 
-| file | scope | PLZ | size |
-|---|---|---|---|
-| `de-plz.geojson` | all of Germany | 8,173 | 4.77 MB |
-| `de-plz-berlin.geojson` | 40 km around Berlin | 256 | 108 KB |
-| `de-plz-muenchen.geojson` | 40 km around München | 238 | 109 KB |
-| `de-plz-rhein-ruhr.geojson` | 50 km around 51.40, 7.10 | 412 | 170 KB |
-| `de-plz-rhein-main.geojson` | 40 km around 50.07, 8.45 | 230 | 100 KB |
+`de-plz.geojson` is all of Germany: 8,173 features, 4.77 MB, EPSG:4326.
 
-All share the same two properties and the same geometry, and every regional file is a strict
-subset of the Germany-wide one.
+The rest are regional subsets, each a radius around a centre point. Every one is a byte-identical
+subset of the Germany file and carries the same two properties.
+
+| file | centre (lat, lon) | radius | PLZ | size |
+|---|---|---|---|---|
+| `de-plz-berlin.geojson` | 52.4986, 13.3662 | 45 km | 261 | 112 KB |
+| `de-plz-bielefeld.geojson` | 52.0146, 8.5631 | 35 km | 84 | 48 KB |
+| `de-plz-bremen.geojson` | 53.0826, 8.7984 | 40 km | 87 | 51 KB |
+| `de-plz-erfurt.geojson` | 50.9841, 11.0346 | 40 km | 73 | 57 KB |
+| `de-plz-halle.geojson` | 51.3567, 12.3294 | 60 km | 190 | 137 KB |
+| `de-plz-hamburg.geojson` | 53.5879, 10.0053 | 50 km | 295 | 140 KB |
+| `de-plz-hannover.geojson` | 52.3732, 9.7516 | 45 km | 148 | 85 KB |
+| `de-plz-koeln.geojson` | 50.9223, 7.0130 | 45 km | 263 | 116 KB |
+| `de-plz-magdeburg.geojson` | 52.1190, 11.6223 | 30 km | 37 | 29 KB |
+| `de-plz-mannheim-heidelberg.geojson` | 49.4500, 8.5198 | 50 km | 335 | 156 KB |
+| `de-plz-muenchen.geojson` | 48.1458, 11.5750 | 45 km | 278 | 134 KB |
+| `de-plz-nuernberg.geojson` | 49.4465, 11.0894 | 50 km | 236 | 138 KB |
+| `de-plz-rhein-main.geojson` | 50.0860, 8.5707 | 55 km | 388 | 183 KB |
+| `de-plz-rhein-ruhr.geojson` | 51.4287, 6.9540 | 65 km | 529 | 230 KB |
+| `de-plz-rostock.geojson` | 54.1094, 12.0587 | 40 km | 38 | 35 KB |
+| `de-plz-stuttgart.geojson` | 48.7656, 9.1750 | 35 km | 242 | 104 KB |
+
+### Properties
+
+Every feature in every file has exactly two:
+
+| property | example | purpose |
+|---|---|---|
+| `plz`  | `"01067"` | 5-digit code as a **string**, leading zeros preserved. Join key. |
+| `name` | `"01067 Dresden"` | Code plus place name, for the tooltip. |
 
 ### Why regional files exist
 
