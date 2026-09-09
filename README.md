@@ -21,23 +21,11 @@ subset of the Germany-wide one.
 Metabase custom region maps cannot zoom. `LeafletChoropleth.tsx` hard-disables `dragging`,
 `zoomControl`, `scrollWheelZoom`, `doubleClickZoom`, `boxZoom`, `touchZoom` and `keyboard`, then
 calls `fitBounds` once using bounds computed from **every feature in the GeoJSON file**. Still true
-on master as of v0.63.16. So the only way to get a zoomed view is a smaller file, and the only way
-to switch region is a separate card per region.
+on master as of v0.63.16. A smaller file is therefore the only way to get a city-scale view, and a
+separate card per file the only way to switch between them.
 
-The regional files are scoped by radius around a public city centre, not by felmo's coverage, so
-they disclose nothing about the operating footprint.
-
-Radii were chosen so each file contains the cities in that operating region. Verified members:
-Berlin also covers Potsdam, Oranienburg, Falkensee, Königs Wusterhausen. Rhein-Ruhr covers Essen,
-Bochum, Düsseldorf, Wuppertal, Dortmund, Duisburg, and deliberately excludes Köln. Rhein-Main
-covers Frankfurt, Wiesbaden, Mainz, Offenbach, Bad Homburg, Darmstadt.
-
-Each feature has exactly two properties:
-
-| property | example | purpose |
-|---|---|---|
-| `plz`  | `"01067"` | 5-digit code as a **string**, leading zeros preserved. Join key. |
-| `name` | `"01067 Dresden"` | Code plus place name, for the tooltip. |
+Each regional file is a plain radius around a city centre, listed above. Widen or add one by
+re-running the build against `de-plz.geojson`.
 
 ## Metabase setup
 
@@ -122,7 +110,7 @@ Shape fidelity was checked by overlaying the simplified outlines on the source a
 München (74 polygons) and Berlin (240 polygons). The 11 polygons with more than 25% area error are
 all small downtown codes between 0.43 and 3.23 km², against a 27.2 km² median.
 
-### Coverage completeness
+### Completeness of the polygon set
 
 The polygon set was compared against the GeoNames German postal code list (10,813 codes, an
 independent non-OSM lineage).
@@ -132,7 +120,7 @@ independent non-OSM lineage).
   `01053 Commerzbank AG`) with no delivery area of their own. They are correctly absent.
 - The one exception is `87491 Jungholz`, an Austrian village that uses a German postal code. It is
   outside Germany, so a German boundary dataset has no polygon for it.
-- **There are no geographic holes in the coverage.**
+- **The polygon set has no geographic gaps.**
 - 12 codes here are absent from GeoNames and could not be confirmed against a current
   authoritative list, since Deutsche Post does not publish one freely: `04861`, `06485`, `06711`,
   `06772`, `09434`, `22961`, `25867`, `33333`, `39628`, `64760`, `99090`, `99095`. They are either
@@ -154,10 +142,9 @@ Simplification was checked for gaps and overlaps along shared borders.
 
 ## Scope
 
-This repo holds OpenStreetMap derived geometry only. Do not add internal business data such as
-coverage lists, territory mappings or per-area metrics. The Metabase `custom-geojson` setting is
-served unauthenticated at `/api/session/properties`, so this URL is public. Keep the join keys and
-all metrics in the warehouse.
+This repo holds OpenStreetMap derived geometry only. Do not add anything else: no metrics, no
+lists, no per-area attributes. A Metabase custom map URL is readable by anyone who can reach the
+instance, so treat everything here as public. Join keys and metrics belong in the warehouse.
 
 ## Licence
 

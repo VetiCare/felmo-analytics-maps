@@ -13,7 +13,7 @@ Initial release.
 
 ### QA added after the initial build (same file, no geometry change)
 
-- Coverage completeness verified against the GeoNames DE postal code list: no geographic holes.
+- Completeness verified against the GeoNames DE postal code list: no geographic gaps.
   2,651 of the 2,652 absent codes are Großempfänger codes with no delivery area; the remaining one
   is `87491 Jungholz`, in Austria.
 - 12 codes could not be confirmed against a current authoritative list. Bounded at 0.19% of mapped
@@ -23,14 +23,11 @@ Initial release.
 
 ## v2.0.0 - 2026-09-09
 
-Added four regional subsets, so Metabase can show a zoomed ZIP-level view per operating region.
-Metabase region maps cannot zoom (verified in `LeafletChoropleth.tsx`, still true on v0.63.16), so
-a smaller file is the only way to get a legible city-scale map.
+Added four regional subsets so a city-scale ZIP map is possible. Metabase region maps cannot zoom
+(verified in `LeafletChoropleth.tsx`, still true on v0.63.16), so a smaller file is the only way to
+get a legible city-scale map.
 
 - `de-plz-berlin.geojson` (256 PLZ), `de-plz-muenchen.geojson` (238),
   `de-plz-rhein-ruhr.geojson` (412), `de-plz-rhein-main.geojson` (230).
-- Scoped by radius around a public city centre rather than by felmo coverage, so no operating
-  footprint is published.
-- Radii verified to contain the cities in each operating region. Köln is deliberately outside
-  Rhein-Ruhr; widen to 60 km if it is ever targeted.
-- `de-plz.geojson` is unchanged.
+- Each is a radius around a city centre, documented in the README, and a strict subset of
+  `de-plz.geojson`, which is unchanged.
