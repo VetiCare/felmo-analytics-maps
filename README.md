@@ -3,9 +3,34 @@
 German 5-digit postal code (PLZ) polygons as a single GeoJSON file, simplified for use as a
 Metabase custom region map.
 
-## The file
+## The files
 
-`de-plz.geojson` (4.77 MB, 8,173 features, EPSG:4326)
+| file | scope | PLZ | size |
+|---|---|---|---|
+| `de-plz.geojson` | all of Germany | 8,173 | 4.77 MB |
+| `de-plz-berlin.geojson` | 40 km around Berlin | 256 | 108 KB |
+| `de-plz-muenchen.geojson` | 40 km around München | 238 | 109 KB |
+| `de-plz-rhein-ruhr.geojson` | 50 km around 51.40, 7.10 | 412 | 170 KB |
+| `de-plz-rhein-main.geojson` | 40 km around 50.07, 8.45 | 230 | 100 KB |
+
+All share the same two properties and the same geometry, and every regional file is a strict
+subset of the Germany-wide one.
+
+### Why regional files exist
+
+Metabase custom region maps cannot zoom. `LeafletChoropleth.tsx` hard-disables `dragging`,
+`zoomControl`, `scrollWheelZoom`, `doubleClickZoom`, `boxZoom`, `touchZoom` and `keyboard`, then
+calls `fitBounds` once using bounds computed from **every feature in the GeoJSON file**. Still true
+on master as of v0.63.16. So the only way to get a zoomed view is a smaller file, and the only way
+to switch region is a separate card per region.
+
+The regional files are scoped by radius around a public city centre, not by felmo's coverage, so
+they disclose nothing about the operating footprint.
+
+Radii were chosen so each file contains the cities in that operating region. Verified members:
+Berlin also covers Potsdam, Oranienburg, Falkensee, Königs Wusterhausen. Rhein-Ruhr covers Essen,
+Bochum, Düsseldorf, Wuppertal, Dortmund, Duisburg, and deliberately excludes Köln. Rhein-Main
+covers Frankfurt, Wiesbaden, Mainz, Offenbach, Bad Homburg, Darmstadt.
 
 Each feature has exactly two properties:
 
